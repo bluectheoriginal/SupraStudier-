@@ -562,6 +562,96 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
         }
         
+        /* Results screen */
+        .results-screen {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--dark-border);
+            text-align: center;
+        }
+        
+        .results-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-score {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .results-percentage {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .results-breakdown {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--dark);
+            border-radius: 8px;
+        }
+        
+        .breakdown-item {
+            text-align: center;
+        }
+        
+        .breakdown-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breakdown-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .results-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background-color: var(--dark-card);
+            color: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            z-index: 1100;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left-color: var(--success);
+        }
+        
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+        
         /* Responsive styles */
         @media (max-width: 768px) {
             .navbar {
@@ -590,6 +680,15 @@
             }
             
             .guide-actions {
+                flex-direction: column;
+            }
+            
+            .results-breakdown {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-actions {
                 flex-direction: column;
             }
         }
@@ -725,6 +824,10 @@
                     <button class="btn btn-outline" id="endSessionBtn">End Session</button>
                 </div>
             </div>
+            
+            <div id="resultsScreen" class="results-screen" style="display: none;">
+                <!-- Results will be displayed here -->
+            </div>
         </div>
 
         <div id="guides" class="tab-content">
@@ -768,6 +871,9 @@
         </div>
     </footer>
 
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
     <!-- Question Type Modal -->
     <div class="modal" id="questionTypeModal">
         <div class="modal-content">
@@ -810,6 +916,7 @@
         const savedGuidesContainer = document.getElementById('savedGuides');
         const studySession = document.getElementById('studySession');
         const guideSelection = document.getElementById('guideSelection');
+        const resultsScreen = document.getElementById('resultsScreen');
         const studyQuestionText = document.getElementById('studyQuestionText');
         const studyQuestionImage = document.getElementById('studyQuestionImage');
         const studyOptionsContainer = document.getElementById('studyOptionsContainer');
@@ -820,6 +927,7 @@
         const scoreDisplay = document.getElementById('scoreDisplay');
         const timerDisplay = document.getElementById('timerDisplay');
         const progressBar = document.getElementById('progressBar');
+        const toast = document.getElementById('toast');
 
         // Current state
         let currentQuestionId = 0;
@@ -1098,7 +1206,7 @@
             const description = document.getElementById('guideDescription').value;
             
             if (!title) {
-                alert('Please enter a title for your study guide.');
+                showToast('Please enter a title for your study guide.', 'error');
                 return;
             }
             
@@ -1161,7 +1269,7 @@
             });
             
             if (questions.length === 0) {
-                alert('Please add at least one question to your study guide.');
+                showToast('Please add at least one question to your study guide.', 'error');
                 return;
             }
             
@@ -1198,7 +1306,7 @@
             studyGuides.push(studyGuide);
             localStorage.setItem('supraStudierGuides', JSON.stringify(studyGuides));
             
-            alert('Study guide saved successfully!');
+            showToast('Study guide saved successfully!', 'success');
             
             // Reset form
             document.getElementById('guideTitle').value = '';
@@ -1251,14 +1359,13 @@
                 btn.addEventListener('click', function() {
                     const guideId = this.getAttribute('data-id');
                     document.querySelector('.tab[data-tab="study"]').click();
-                    // In a full implementation, this would show study mode selection for the specific guide
                 });
             });
             
             document.querySelectorAll('.edit-guide').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const guideId = this.getAttribute('data-id');
-                    alert(`Editing guide ${guideId}. In a full implementation, this would load the guide into the editor.`);
+                    showToast('Edit functionality would open here in a full implementation', 'info');
                 });
             });
             
@@ -1269,6 +1376,7 @@
                         studyGuides = studyGuides.filter(guide => guide.id !== guideId);
                         localStorage.setItem('supraStudierGuides', JSON.stringify(studyGuides));
                         loadSavedGuides();
+                        showToast('Study guide deleted successfully', 'success');
                     }
                 });
             });
@@ -1328,6 +1436,7 @@
             // Hide guide selection, show study session
             guideSelection.style.display = 'none';
             studySession.style.display = 'block';
+            resultsScreen.style.display = 'none';
             
             // Reset session state
             currentQuestionIndex = 0;
@@ -1560,14 +1669,70 @@
                 clearInterval(studyTimer);
             }
             
-            // Show results
-            const percentage = score.total > 0 ? Math.round(score.correct/score.total * 100) : 0;
-            alert(`Study session completed!\nFinal Score: ${score.correct}/${score.total} (${percentage}%)`);
-            
-            // Reset UI
-            document.querySelector('.study-modes').style.display = 'grid';
+            // Show results screen
+            showResults();
+        }
+
+        // Show results screen
+        function showResults() {
             studySession.style.display = 'none';
-            guideSelection.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            
+            const percentage = score.total > 0 ? Math.round(score.correct/score.total * 100) : 0;
+            const icon = percentage >= 80 ? '🎉' : percentage >= 60 ? '👍' : '💪';
+            const message = percentage >= 80 ? 'Excellent work!' : 
+                           percentage >= 60 ? 'Good job!' : 
+                           'Keep practicing!';
+            
+            resultsScreen.innerHTML = `
+                <div class="results-icon">${icon}</div>
+                <h2>Study Session Completed!</h2>
+                <div class="results-score">${score.correct}/${score.total}</div>
+                <div class="results-percentage">${percentage}% Correct</div>
+                <p>${message}</p>
+                
+                <div class="results-breakdown">
+                    <div class="breakdown-item">
+                        <div class="breakdown-value">${score.correct}</div>
+                        <div class="breakdown-label">Correct</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-value">${score.total - score.correct}</div>
+                        <div class="breakdown-label">Incorrect</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-value">${score.total}</div>
+                        <div class="breakdown-label">Total</div>
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button class="btn btn-primary" id="restartSessionBtn">Restart Session</button>
+                    <button class="btn btn-outline" id="backToModesBtn">Back to Study Modes</button>
+                </div>
+            `;
+            
+            // Add event listeners to results buttons
+            document.getElementById('restartSessionBtn').addEventListener('click', () => {
+                startStudySession();
+            });
+            
+            document.getElementById('backToModesBtn').addEventListener('click', () => {
+                resultsScreen.style.display = 'none';
+                document.querySelector('.study-modes').style.display = 'grid';
+                guideSelection.style.display = 'none';
+            });
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // Toggle between light and dark themes
