@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupraStudier - Study-Focused Learning Platform</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --success: #4ade80;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .study-guide-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .question-item {
+            background-color: var(--gray-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .question-type {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 0.5rem;
+            border-radius: 6px;
+        }
+        
+        .study-guides {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .study-guide-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .study-guide-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .guide-thumbnail {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .guide-content {
+            padding: 1.5rem;
+        }
+        
+        .guide-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .guide-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .mode-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .study-guides {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span>SupraStudier</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#create">Create</a>
+                    <a href="#study">Study</a>
+                    <a href="#guides">My Guides</a>
+                </div>
+                <div>
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Study Smarter, Not Harder</h1>
+            <p>SupraStudier helps you create effective study guides and master any subject with multiple study modes designed for serious learners.</p>
+            <button class="btn btn-primary" id="getStartedBtn">Get Started</button>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="tabs">
+            <button class="tab active" data-tab="create">Create Study Guide</button>
+            <button class="tab" data-tab="study">Study Modes</button>
+            <button class="tab" data-tab="guides">My Study Guides</button>
+        </div>
+
+        <div id="create" class="tab-content active">
+            <div class="study-guide-form">
+                <h2>Create a New Study Guide</h2>
+                <div class="form-group">
+                    <label for="guideTitle">Study Guide Title</label>
+                    <input type="text" id="guideTitle" class="form-control" placeholder="Enter a title for your study guide">
+                </div>
+                <div class="form-group">
+                    <label for="guideDescription">Description</label>
+                    <textarea id="guideDescription" class="form-control" rows="3" placeholder="Describe what this study guide covers"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="guideThumbnail">Thumbnail Image (Optional)</label>
+                    <input type="file" id="guideThumbnail" class="form-control" accept="image/*">
+                    <div id="thumbnailPreview"></div>
+                </div>
+                
+                <h3>Add Questions</h3>
+                <div id="questionsContainer">
+                    <!-- Questions will be added here dynamically -->
+                </div>
+                
+                <button class="btn btn-outline" id="addQuestionBtn">Add Question</button>
+                <button class="btn btn-primary" id="saveGuideBtn">Save Study Guide</button>
+            </div>
+        </div>
+
+        <div id="study" class="tab-content">
+            <h2>Choose a Study Mode</h2>
+            <p>Select how you want to study your material. Each mode is designed to help you learn in different ways.</p>
+            
+            <div class="study-modes">
+                <div class="mode-card" data-mode="quiz">
+                    <div class="mode-icon">❓</div>
+                    <h3>Quiz Mode</h3>
+                    <p>Test your knowledge with timed questions and track your progress.</p>
+                </div>
+                <div class="mode-card" data-mode="review">
+                    <div class="mode-icon">📖</div>
+                    <h3>Review Mode</h3>
+                    <p>Go through all questions at your own pace with immediate feedback.</p>
+                </div>
+                <div class="mode-card" data-mode="memorize">
+                    <div class="mode-icon">🧠</div>
+                    <h3>Memorize Mode</h3>
+                    <p>Focus on memorization with spaced repetition techniques.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="guides" class="tab-content">
+            <h2>My Study Guides</h2>
+            <p>All your saved study guides. Click on one to study or edit it.</p>
+            
+            <div class="study-guides" id="savedGuides">
+                <!-- Study guides will be loaded here -->
+                <div class="study-guide-card">
+                    <img src="https://via.placeholder.com/300x160/4361ee/ffffff?text=Sample+Guide" alt="Sample Guide" class="guide-thumbnail">
+                    <div class="guide-content">
+                        <h3 class="guide-title">Sample Study Guide</h3>
+                        <div class="guide-meta">
+                            <span>5 Questions</span>
+                            <span>Created: Today</span>
+                        </div>
+                        <div class="guide-actions">
+                            <button class="btn btn-primary">Study</button>
+                            <button class="btn btn-outline">Edit</button>
+                            <button class="btn btn-outline">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SupraStudier</h3>
+                    <p>A study-focused platform for serious learners who want to master any subject efficiently.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#">Create Study Guides</a></li>
+                        <li><a href="#">Multiple Study Modes</a></li>
+                        <li><a href="#">Local Storage</a></li>
+                        <li><a href="#">Image Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SupraStudier. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Question Type Modal -->
+    <div class="modal" id="questionTypeModal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h2>Select Question Type</h2>
+            <div class="study-modes">
+                <div class="mode-card" data-question-type="multiple">
+                    <div class="mode-icon">🔠</div>
+                    <h3>Multiple Choice</h3>
+                    <p>Select one or more correct answers from options.</p>
+                </div>
+                <div class="mode-card" data-question-type="truefalse">
+                    <div class="mode-icon">✅</div>
+                    <h3>True/False</h3>
+                    <p>Determine if a statement is true or false.</p>
+                </div>
+                <div class="mode-card" data-question-type="short">
+                    <div class="mode-icon">📝</div>
+                    <h3>Short Answer</h3>
+                    <p>Type the answer to a question.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const addQuestionBtn = document.getElementById('addQuestionBtn');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const saveGuideBtn = document.getElementById('saveGuideBtn');
+        const questionTypeModal = document.getElementById('questionTypeModal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const studyModeCards = document.querySelectorAll('.mode-card[data-mode]');
+        const getStartedBtn = document.getElementById('getStartedBtn');
+        const guideThumbnail = document.getElementById('guideThumbnail');
+        const thumbnailPreview = document.getElementById('thumbnailPreview');
+
+        // Current state
+        let currentQuestionId = 0;
+        let studyGuides = JSON.parse(localStorage.getItem('supraStudierGuides')) || [];
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show active content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // If switching to guides tab, load saved guides
+                if (tabId === 'guides') {
+                    loadSavedGuides();
+                }
+            });
+        });
+
+        // Open question type modal
+        addQuestionBtn.addEventListener('click', () => {
+            questionTypeModal.style.display = 'flex';
+        });
+
+        // Close modal
+        closeModalBtn.addEventListener('click', () => {
+            questionTypeModal.style.display = 'none';
+        });
+
+        // Question type selection
+        document.querySelectorAll('.mode-card[data-question-type]').forEach(card => {
+            card.addEventListener('click', () => {
+                const type = card.getAttribute('data-question-type');
+                questionTypeModal.style.display = 'none';
+                addQuestion(type);
+            });
+        });
+
+        // Study mode selection
+        studyModeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const mode = card.getAttribute('data-mode');
+                alert(`Starting ${mode} mode. In a full implementation, this would load your study guides.`);
+            });
+        });
+
+        // Get Started button
+        getStartedBtn.addEventListener('click', () => {
+            document.querySelector('.tab[data-tab="create"]').click();
+        });
+
+        // Thumbnail preview
+        guideThumbnail.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    thumbnailPreview.innerHTML = `<img src="${e.target.result}" class="image-preview" alt="Thumbnail preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add question function
+        function addQuestion(type) {
+            currentQuestionId++;
+            const questionId = `question-${currentQuestionId}`;
+            
+            let questionHTML = '';
+            
+            if (type === 'multiple') {
+                questionHTML = `
+                    <div class="question-item" id="${questionId}">
+                        <div class="question-header">
+                            <span class="question-type">Multiple Choice Question</span>
+                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-text">Question Text</label>
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question">
+                        </div>
+                        <div class="form-group">
+                            <label>Options (select all that apply)</label>
+                            <div class="option-item">
+                                <input type="checkbox" id="${questionId}-option1-correct">
+                                <input type="text" class="form-control option-text" placeholder="Option 1">
+                            </div>
+                            <div class="option-item">
+                                <input type="checkbox" id="${questionId}-option2-correct">
+                                <input type="text" class="form-control option-text" placeholder="Option 2">
+                            </div>
+                            <div class="option-item">
+                                <input type="checkbox" id="${questionId}-option3-correct">
+                                <input type="text" class="form-control option-text" placeholder="Option 3">
+                            </div>
+                            <div class="option-item">
+                                <input type="checkbox" id="${questionId}-option4-correct">
+                                <input type="text" class="form-control option-text" placeholder="Option 4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-image">Question Image (Optional)</label>
+                            <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
+                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'truefalse') {
+                questionHTML = `
+                    <div class="question-item" id="${questionId}">
+                        <div class="question-header">
+                            <span class="question-type">True/False Question</span>
+                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-text">Question Text</label>
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your statement">
+                        </div>
+                        <div class="form-group">
+                            <label>Correct Answer</label>
+                            <div class="option-item">
+                                <input type="radio" name="${questionId}-answer" id="${questionId}-true" value="true">
+                                <label for="${questionId}-true">True</label>
+                            </div>
+                            <div class="option-item">
+                                <input type="radio" name="${questionId}-answer" id="${questionId}-false" value="false">
+                                <label for="${questionId}-false">False</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-image">Question Image (Optional)</label>
+                            <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
+                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'short') {
+                questionHTML = `
+                    <div class="question-item" id="${questionId}">
+                        <div class="question-header">
+                            <span class="question-type">Short Answer Question</span>
+                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-text">Question Text</label>
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question">
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-answer">Correct Answer</label>
+                            <input type="text" id="${questionId}-answer" class="form-control" placeholder="Enter the correct answer">
+                        </div>
+                        <div class="form-group">
+                            <label for="${questionId}-image">Question Image (Optional)</label>
+                            <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
+                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
+            
+            // Add event listener for remove button
+            document.querySelector(`#${questionId} .remove-question`).addEventListener('click', function() {
+                document.getElementById(questionId).remove();
+            });
+            
+            // Add event listener for image preview
+            document.getElementById(`${questionId}-image`).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const previewContainer = document.getElementById(`${questionId}-preview`);
+                
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewContainer.innerHTML = `<img src="${e.target.result}" class="image-preview" alt="Question image preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Save study guide
+        saveGuideBtn.addEventListener('click', function() {
+            const title = document.getElementById('guideTitle').value;
+            const description = document.getElementById('guideDescription').value;
+            
+            if (!title) {
+                alert('Please enter a title for your study guide.');
+                return;
+            }
+            
+            const questions = [];
+            const questionElements = document.querySelectorAll('.question-item');
+            
+            questionElements.forEach(qElement => {
+                const questionText = qElement.querySelector('.question-text').value;
+                const questionType = qElement.querySelector('.question-type').textContent;
+                
+                if (!questionText) return; // Skip empty questions
+                
+                let questionData = {
+                    text: questionText,
+                    type: questionType
+                };
+                
+                // Handle different question types
+                if (questionType.includes('Multiple Choice')) {
+                    const options = [];
+                    const optionElements = qElement.querySelectorAll('.option-text');
+                    const correctCheckboxes = qElement.querySelectorAll('input[type="checkbox"]');
+                    
+                    optionElements.forEach((opt, index) => {
+                        if (opt.value) {
+                            options.push({
+                                text: opt.value,
+                                correct: correctCheckboxes[index].checked
+                            });
+                        }
+                    });
+                    
+                    questionData.options = options;
+                } else if (questionType.includes('True/False')) {
+                    const trueRadio = qElement.querySelector('input[value="true"]');
+                    const falseRadio = qElement.querySelector('input[value="false"]');
+                    
+                    questionData.correctAnswer = trueRadio.checked ? 'true' : 'false';
+                } else if (questionType.includes('Short Answer')) {
+                    const answerInput = qElement.querySelector('input[type="text"]:not(.question-text)');
+                    questionData.correctAnswer = answerInput.value;
+                }
+                
+                // Handle image if present
+                const imageInput = qElement.querySelector('.question-image');
+                if (imageInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        questionData.image = e.target.result;
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                }
+                
+                questions.push(questionData);
+            });
+            
+            if (questions.length === 0) {
+                alert('Please add at least one question to your study guide.');
+                return;
+            }
+            
+            // Create study guide object
+            const studyGuide = {
+                id: Date.now().toString(),
+                title: title,
+                description: description,
+                questions: questions,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Handle thumbnail
+            if (guideThumbnail.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    studyGuide.thumbnail = e.target.result;
+                    saveStudyGuide(studyGuide);
+                };
+                reader.readAsDataURL(guideThumbnail.files[0]);
+            } else {
+                saveStudyGuide(studyGuide);
+            }
+        });
+
+        // Save study guide to localStorage
+        function saveStudyGuide(studyGuide) {
+            studyGuides.push(studyGuide);
+            localStorage.setItem('supraStudierGuides', JSON.stringify(studyGuides));
+            
+            alert('Study guide saved successfully!');
+            
+            // Reset form
+            document.getElementById('guideTitle').value = '';
+            document.getElementById('guideDescription').value = '';
+            thumbnailPreview.innerHTML = '';
+            questionsContainer.innerHTML = '';
+            currentQuestionId = 0;
+            
+            // Switch to guides tab
+            document.querySelector('.tab[data-tab="guides"]').click();
+        }
+
+        // Load saved study guides
+        function loadSavedGuides() {
+            const savedGuidesContainer = document.getElementById('savedGuides');
+            savedGuidesContainer.innerHTML = '';
+            
+            if (studyGuides.length === 0) {
+                savedGuidesContainer.innerHTML = '<p>You haven\'t created any study guides yet.</p>';
+                return;
+            }
+            
+            studyGuides.forEach(guide => {
+                const guideCard = document.createElement('div');
+                guideCard.className = 'study-guide-card';
+                
+                const thumbnailSrc = guide.thumbnail || 'https://via.placeholder.com/300x160/4361ee/ffffff?text=No+Image';
+                
+                guideCard.innerHTML = `
+                    <img src="${thumbnailSrc}" alt="${guide.title}" class="guide-thumbnail">
+                    <div class="guide-content">
+                        <h3 class="guide-title">${guide.title}</h3>
+                        <p>${guide.description || 'No description'}</p>
+                        <div class="guide-meta">
+                            <span>${guide.questions.length} Questions</span>
+                            <span>Created: ${new Date(guide.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div class="guide-actions">
+                            <button class="btn btn-primary study-guide" data-id="${guide.id}">Study</button>
+                            <button class="btn btn-outline edit-guide" data-id="${guide.id}">Edit</button>
+                            <button class="btn btn-outline delete-guide" data-id="${guide.id}">Delete</button>
+                        </div>
+                    </div>
+                `;
+                
+                savedGuidesContainer.appendChild(guideCard);
+            });
+            
+            // Add event listeners to guide actions
+            document.querySelectorAll('.study-guide').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const guideId = this.getAttribute('data-id');
+                    alert(`Starting study session for guide ${guideId}. In a full implementation, this would open the study mode selector.`);
+                });
+            });
+            
+            document.querySelectorAll('.edit-guide').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const guideId = this.getAttribute('data-id');
+                    alert(`Editing guide ${guideId}. In a full implementation, this would load the guide into the editor.`);
+                });
+            });
+            
+            document.querySelectorAll('.delete-guide').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const guideId = this.getAttribute('data-id');
+                    if (confirm('Are you sure you want to delete this study guide?')) {
+                        studyGuides = studyGuides.filter(guide => guide.id !== guideId);
+                        localStorage.setItem('supraStudierGuides', JSON.stringify(studyGuides));
+                        loadSavedGuides();
+                    }
+                });
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load any existing study guides
+            loadSavedGuides();
+        });
+    </script>
+</body>
+</html>
