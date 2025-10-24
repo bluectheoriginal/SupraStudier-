@@ -37,11 +37,24 @@
             line-height: 1.6;
             transition: var(--transition);
         }
+
+        body.fullscreen {
+            padding: 0;
+            overflow: hidden;
+        }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        body.fullscreen .container {
+            max-width: none;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         header {
@@ -51,6 +64,10 @@
             top: 0;
             z-index: 100;
             border-bottom: 1px solid var(--dark-border);
+        }
+
+        body.fullscreen header {
+            display: none;
         }
         
         .navbar {
@@ -138,6 +155,11 @@
             color: white;
         }
         
+        .btn-sm {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+        }
+        
         .hero {
             padding: 4rem 0;
             text-align: center;
@@ -145,6 +167,39 @@
             color: white;
             border-radius: 0 0 20px 20px;
             margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .hero.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .close-hero {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-hero:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
         
         .hero h1 {
@@ -196,6 +251,10 @@
             margin-bottom: 2rem;
             border-bottom: 1px solid var(--dark-border);
         }
+
+        body.fullscreen .tabs {
+            display: none;
+        }
         
         .tab {
             padding: 0.8rem 1.5rem;
@@ -219,6 +278,16 @@
         
         .tab-content.active {
             display: block;
+        }
+
+        body.fullscreen .tab-content:not(#study) {
+            display: none;
+        }
+
+        body.fullscreen #study {
+            display: block;
+            flex: 1;
+            height: 100vh;
         }
         
         .study-guide-form {
@@ -264,6 +333,7 @@
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             border: 1px solid var(--dark-border);
+            position: relative;
         }
         
         .question-header {
@@ -276,6 +346,11 @@
         .question-type {
             font-weight: 600;
             color: var(--primary);
+        }
+        
+        .question-actions {
+            display: flex;
+            gap: 0.5rem;
         }
         
         .option-item {
@@ -387,6 +462,10 @@
             margin-top: 4rem;
             border-top: 1px solid var(--dark-border);
         }
+
+        body.fullscreen footer {
+            display: none;
+        }
         
         .footer-content {
             display: flex;
@@ -476,6 +555,42 @@
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
             border: 1px solid var(--dark-border);
+            transition: all 0.3s ease;
+        }
+
+        body.fullscreen .study-session {
+            height: 100vh;
+            border-radius: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        body.fullscreen .question-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        body.fullscreen .study-question-text {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        body.fullscreen .options-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        body.fullscreen .option-btn {
+            padding: 1.5rem;
+            font-size: 1.1rem;
         }
         
         .question-display {
@@ -548,6 +663,18 @@
             margin-bottom: 1rem;
             color: var(--gray);
         }
+
+        body.fullscreen .session-stats {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
         
         /* Guide selection */
         .guide-selection {
@@ -571,6 +698,15 @@
             margin-bottom: 2rem;
             border: 1px solid var(--dark-border);
             text-align: center;
+        }
+
+        body.fullscreen .results-screen {
+            height: 100vh;
+            border-radius: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .results-icon {
@@ -623,7 +759,43 @@
             gap: 1rem;
             margin-top: 2rem;
         }
-        
+
+        /* Fullscreen controls */
+        .fullscreen-controls {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .fullscreen-controls .btn {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--dark-border);
+        }
+
+        /* Endless mode indicator */
+        .endless-indicator {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 41, 59, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--dark-border);
+            display: none;
+        }
+
+        body.fullscreen .endless-indicator {
+            display: block;
+        }
+
         /* Toast notification */
         .toast {
             position: fixed;
@@ -650,6 +822,15 @@
         
         .toast.error {
             border-left-color: var(--danger);
+        }
+        
+        /* Question reordering */
+        .question-sortable {
+            cursor: move;
+        }
+        
+        .question-sortable.dragging {
+            opacity: 0.5;
         }
         
         /* Responsive styles */
@@ -691,6 +872,19 @@
             .results-actions {
                 flex-direction: column;
             }
+            
+            .question-actions {
+                flex-direction: column;
+            }
+
+            body.fullscreen .study-question-text {
+                font-size: 1.4rem;
+            }
+
+            body.fullscreen .option-btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
         }
         
         /* Theme toggle */
@@ -725,14 +919,15 @@
                     <button class="theme-toggle" id="themeToggle">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <button class="btn btn-outline" id="loginBtn">Log In</button>
-                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
                 </div>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="heroSection">
+        <button class="close-hero" id="closeHeroBtn">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
             <h1>Study Smarter, Not Harder</h1>
             <p>SupraStudier helps you create effective study guides and master any subject with multiple study modes designed for serious learners.</p>
@@ -794,6 +989,11 @@
                     <h3>Memorize Mode</h3>
                     <p>Focus on memorization with spaced repetition techniques.</p>
                 </div>
+                <div class="mode-card" data-mode="endless">
+                    <div class="mode-icon">∞</div>
+                    <h3>Endless Mode</h3>
+                    <p>Continuous practice with fullscreen for maximum concentration.</p>
+                </div>
             </div>
             
             <div id="guideSelection" class="guide-selection" style="display: none;">
@@ -812,7 +1012,7 @@
                     <div class="progress" id="progressBar" style="width: 0%"></div>
                 </div>
                 <div class="question-display">
-                    <h3 id="studyQuestionText">Question text will appear here</h3>
+                    <h3 id="studyQuestionText" class="study-question-text">Question text will appear here</h3>
                     <img id="studyQuestionImage" class="question-image" style="display: none;">
                 </div>
                 <div id="studyOptionsContainer" class="options-container">
@@ -822,6 +1022,9 @@
                     <button class="btn btn-primary" id="nextQuestionBtn" style="display: none;">Next Question</button>
                     <button class="btn btn-primary" id="checkAnswerBtn">Check Answer</button>
                     <button class="btn btn-outline" id="endSessionBtn">End Session</button>
+                    <button class="btn btn-outline" id="toggleFullscreenBtn" style="display: none;">
+                        <i class="fas fa-expand"></i> Fullscreen
+                    </button>
                 </div>
             </div>
             
@@ -839,6 +1042,21 @@
             </div>
         </div>
     </main>
+
+    <!-- Fullscreen Controls -->
+    <div class="fullscreen-controls" id="fullscreenControls" style="display: none;">
+        <button class="btn btn-outline btn-sm" id="exitFullscreenBtn">
+            <i class="fas fa-compress"></i> Exit
+        </button>
+        <button class="btn btn-outline btn-sm" id="nextQuestionFullscreenBtn">
+            <i class="fas fa-forward"></i> Next
+        </button>
+    </div>
+
+    <!-- Endless Mode Indicator -->
+    <div class="endless-indicator" id="endlessIndicator">
+        <i class="fas fa-infinity"></i> Endless Mode - Keep Practicing!
+    </div>
 
     <footer>
         <div class="container">
@@ -866,7 +1084,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 SupraStudier. All rights reserved.</p>
+                <p>&copy; 2025 SupraStudier. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -910,6 +1128,8 @@
         const closeModalBtn = document.querySelector('.close-modal');
         const studyModeCards = document.querySelectorAll('.mode-card[data-mode]');
         const getStartedBtn = document.getElementById('getStartedBtn');
+        const closeHeroBtn = document.getElementById('closeHeroBtn');
+        const heroSection = document.getElementById('heroSection');
         const guideThumbnail = document.getElementById('guideThumbnail');
         const thumbnailPreview = document.getElementById('thumbnailPreview');
         const themeToggle = document.getElementById('themeToggle');
@@ -923,6 +1143,11 @@
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
         const checkAnswerBtn = document.getElementById('checkAnswerBtn');
         const endSessionBtn = document.getElementById('endSessionBtn');
+        const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
+        const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+        const nextQuestionFullscreenBtn = document.getElementById('nextQuestionFullscreenBtn');
+        const fullscreenControls = document.getElementById('fullscreenControls');
+        const endlessIndicator = document.getElementById('endlessIndicator');
         const questionCounter = document.getElementById('questionCounter');
         const scoreDisplay = document.getElementById('scoreDisplay');
         const timerDisplay = document.getElementById('timerDisplay');
@@ -939,6 +1164,10 @@
         let selectedOptions = [];
         let studyTimer = null;
         let timeLeft = 60;
+        let isEditing = false;
+        let editingGuideId = null;
+        let isEndlessMode = false;
+        let usedQuestions = new Set();
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -951,6 +1180,11 @@
             // Create sample study guide if none exist
             if (studyGuides.length === 0) {
                 createSampleStudyGuide();
+            }
+
+            // Check if hero was previously dismissed
+            if (localStorage.getItem('heroDismissed') === 'true') {
+                heroSection.classList.add('hidden');
             }
         });
 
@@ -976,6 +1210,11 @@
                     // If switching to guides tab, load saved guides
                     if (tabId === 'guides') {
                         loadSavedGuides();
+                    }
+                    
+                    // Reset create form if switching to create tab
+                    if (tabId === 'create' && !isEditing) {
+                        resetCreateForm();
                     }
                 });
             });
@@ -1010,7 +1249,11 @@
             // Get Started button
             getStartedBtn.addEventListener('click', () => {
                 document.querySelector('.tab[data-tab="create"]').click();
+                dismissHero();
             });
+
+            // Close hero button
+            closeHeroBtn.addEventListener('click', dismissHero);
 
             // Thumbnail preview
             guideThumbnail.addEventListener('change', function(e) {
@@ -1034,6 +1277,21 @@
             nextQuestionBtn.addEventListener('click', nextQuestion);
             checkAnswerBtn.addEventListener('click', checkAnswer);
             endSessionBtn.addEventListener('click', endStudySession);
+            toggleFullscreenBtn.addEventListener('click', toggleFullscreen);
+            exitFullscreenBtn.addEventListener('click', exitFullscreen);
+            nextQuestionFullscreenBtn.addEventListener('click', nextQuestion);
+
+            // Fullscreen change event
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+        }
+
+        // Dismiss hero section
+        function dismissHero() {
+            heroSection.classList.add('hidden');
+            localStorage.setItem('heroDismissed', 'true');
         }
 
         // Create a sample study guide for demonstration
@@ -1082,97 +1340,112 @@
         }
 
         // Add question function
-        function addQuestion(type) {
+        function addQuestion(type, questionData = null) {
             currentQuestionId++;
             const questionId = `question-${currentQuestionId}`;
             
             let questionHTML = '';
             
             if (type === 'multiple') {
+                const options = questionData ? questionData.options : [
+                    { text: '', correct: false },
+                    { text: '', correct: false },
+                    { text: '', correct: false },
+                    { text: '', correct: false }
+                ];
+                
                 questionHTML = `
-                    <div class="question-item" id="${questionId}">
+                    <div class="question-item question-sortable" id="${questionId}">
                         <div class="question-header">
                             <span class="question-type">Multiple Choice Question</span>
-                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                            <div class="question-actions">
+                                <button class="btn btn-outline btn-sm move-up" data-id="${questionId}">↑</button>
+                                <button class="btn btn-outline btn-sm move-down" data-id="${questionId}">↓</button>
+                                <button class="btn btn-danger btn-sm remove-question" data-id="${questionId}">Remove</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-text">Question Text</label>
-                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question">
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question" value="${questionData ? questionData.text : ''}">
                         </div>
                         <div class="form-group">
                             <label>Options (select all that apply)</label>
-                            <div class="option-item">
-                                <input type="checkbox" id="${questionId}-option1-correct">
-                                <input type="text" class="form-control option-text" placeholder="Option 1">
-                            </div>
-                            <div class="option-item">
-                                <input type="checkbox" id="${questionId}-option2-correct">
-                                <input type="text" class="form-control option-text" placeholder="Option 2">
-                            </div>
-                            <div class="option-item">
-                                <input type="checkbox" id="${questionId}-option3-correct">
-                                <input type="text" class="form-control option-text" placeholder="Option 3">
-                            </div>
-                            <div class="option-item">
-                                <input type="checkbox" id="${questionId}-option4-correct">
-                                <input type="text" class="form-control option-text" placeholder="Option 4">
-                            </div>
+                            ${options.map((option, index) => `
+                                <div class="option-item">
+                                    <input type="checkbox" id="${questionId}-option${index}-correct" ${option.correct ? 'checked' : ''}>
+                                    <input type="text" class="form-control option-text" placeholder="Option ${index + 1}" value="${option.text}">
+                                </div>
+                            `).join('')}
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-image">Question Image (Optional)</label>
                             <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
-                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                            <div class="image-preview-container" id="${questionId}-preview">
+                                ${questionData && questionData.image ? `<img src="${questionData.image}" class="image-preview" alt="Question image preview">` : ''}
+                            </div>
                         </div>
                     </div>
                 `;
             } else if (type === 'truefalse') {
                 questionHTML = `
-                    <div class="question-item" id="${questionId}">
+                    <div class="question-item question-sortable" id="${questionId}">
                         <div class="question-header">
                             <span class="question-type">True/False Question</span>
-                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                            <div class="question-actions">
+                                <button class="btn btn-outline btn-sm move-up" data-id="${questionId}">↑</button>
+                                <button class="btn btn-outline btn-sm move-down" data-id="${questionId}">↓</button>
+                                <button class="btn btn-danger btn-sm remove-question" data-id="${questionId}">Remove</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-text">Question Text</label>
-                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your statement">
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your statement" value="${questionData ? questionData.text : ''}">
                         </div>
                         <div class="form-group">
                             <label>Correct Answer</label>
                             <div class="option-item">
-                                <input type="radio" name="${questionId}-answer" id="${questionId}-true" value="true">
+                                <input type="radio" name="${questionId}-answer" id="${questionId}-true" value="true" ${questionData && questionData.correctAnswer === 'true' ? 'checked' : ''}>
                                 <label for="${questionId}-true">True</label>
                             </div>
                             <div class="option-item">
-                                <input type="radio" name="${questionId}-answer" id="${questionId}-false" value="false">
+                                <input type="radio" name="${questionId}-answer" id="${questionId}-false" value="false" ${questionData && questionData.correctAnswer === 'false' ? 'checked' : ''}>
                                 <label for="${questionId}-false">False</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-image">Question Image (Optional)</label>
                             <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
-                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                            <div class="image-preview-container" id="${questionId}-preview">
+                                ${questionData && questionData.image ? `<img src="${questionData.image}" class="image-preview" alt="Question image preview">` : ''}
+                            </div>
                         </div>
                     </div>
                 `;
             } else if (type === 'short') {
                 questionHTML = `
-                    <div class="question-item" id="${questionId}">
+                    <div class="question-item question-sortable" id="${questionId}">
                         <div class="question-header">
                             <span class="question-type">Short Answer Question</span>
-                            <button class="btn btn-outline remove-question" data-id="${questionId}">Remove</button>
+                            <div class="question-actions">
+                                <button class="btn btn-outline btn-sm move-up" data-id="${questionId}">↑</button>
+                                <button class="btn btn-outline btn-sm move-down" data-id="${questionId}">↓</button>
+                                <button class="btn btn-danger btn-sm remove-question" data-id="${questionId}">Remove</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-text">Question Text</label>
-                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question">
+                            <input type="text" id="${questionId}-text" class="form-control question-text" placeholder="Enter your question" value="${questionData ? questionData.text : ''}">
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-answer">Correct Answer</label>
-                            <input type="text" id="${questionId}-answer" class="form-control" placeholder="Enter the correct answer">
+                            <input type="text" id="${questionId}-answer" class="form-control" placeholder="Enter the correct answer" value="${questionData ? questionData.correctAnswer : ''}">
                         </div>
                         <div class="form-group">
                             <label for="${questionId}-image">Question Image (Optional)</label>
                             <input type="file" id="${questionId}-image" class="form-control question-image" accept="image/*">
-                            <div class="image-preview-container" id="${questionId}-preview"></div>
+                            <div class="image-preview-container" id="${questionId}-preview">
+                                ${questionData && questionData.image ? `<img src="${questionData.image}" class="image-preview" alt="Question image preview">` : ''}
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1180,13 +1453,32 @@
             
             questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
             
-            // Add event listener for remove button
-            document.querySelector(`#${questionId} .remove-question`).addEventListener('click', function() {
+            // Add event listeners for question actions
+            const questionElement = document.getElementById(questionId);
+            
+            // Remove question
+            questionElement.querySelector('.remove-question').addEventListener('click', function() {
                 document.getElementById(questionId).remove();
             });
             
-            // Add event listener for image preview
-            document.getElementById(`${questionId}-image`).addEventListener('change', function(e) {
+            // Move question up
+            questionElement.querySelector('.move-up').addEventListener('click', function() {
+                const prevElement = questionElement.previousElementSibling;
+                if (prevElement) {
+                    questionsContainer.insertBefore(questionElement, prevElement);
+                }
+            });
+            
+            // Move question down
+            questionElement.querySelector('.move-down').addEventListener('click', function() {
+                const nextElement = questionElement.nextElementSibling;
+                if (nextElement) {
+                    questionsContainer.insertBefore(nextElement, questionElement);
+                }
+            });
+            
+            // Image preview
+            questionElement.querySelector('.question-image').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 const previewContainer = document.getElementById(`${questionId}-preview`);
                 
@@ -1198,6 +1490,50 @@
                     reader.readAsDataURL(file);
                 }
             });
+            
+            // Set up drag and drop for reordering
+            setupQuestionDragAndDrop(questionElement);
+        }
+
+        // Set up drag and drop for question reordering
+        function setupQuestionDragAndDrop(questionElement) {
+            questionElement.setAttribute('draggable', true);
+            
+            questionElement.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', questionElement.id);
+                questionElement.classList.add('dragging');
+            });
+            
+            questionElement.addEventListener('dragend', () => {
+                questionElement.classList.remove('dragging');
+            });
+        }
+
+        // Set up drop zone for questions container
+        questionsContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(questionsContainer, e.clientY);
+            const draggable = document.querySelector('.dragging');
+            if (afterElement == null) {
+                questionsContainer.appendChild(draggable);
+            } else {
+                questionsContainer.insertBefore(draggable, afterElement);
+            }
+        });
+
+        // Helper function for drag and drop
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.question-sortable:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
 
         // Save study guide
@@ -1264,6 +1600,11 @@
                     };
                     reader.readAsDataURL(imageInput.files[0]);
                 } else {
+                    // Check if there's an existing image from editing
+                    const previewImg = qElement.querySelector('.image-preview');
+                    if (previewImg && previewImg.src) {
+                        questionData.image = previewImg.src;
+                    }
                     questions.push(questionData);
                 }
             });
@@ -1280,13 +1621,26 @@
         // Complete saving study guide to localStorage
         function completeSaveStudyGuide(title, description, questions) {
             // Create study guide object
-            const studyGuide = {
-                id: Date.now().toString(),
-                title: title,
-                description: description,
-                questions: questions,
-                createdAt: new Date().toISOString()
-            };
+            let studyGuide;
+            
+            if (isEditing) {
+                // Update existing guide
+                studyGuide = studyGuides.find(guide => guide.id === editingGuideId);
+                studyGuide.title = title;
+                studyGuide.description = description;
+                studyGuide.questions = questions;
+                studyGuide.updatedAt = new Date().toISOString();
+            } else {
+                // Create new guide
+                studyGuide = {
+                    id: Date.now().toString(),
+                    title: title,
+                    description: description,
+                    questions: questions,
+                    createdAt: new Date().toISOString()
+                };
+                studyGuides.push(studyGuide);
+            }
             
             // Handle thumbnail
             if (guideThumbnail.files.length > 0) {
@@ -1297,26 +1651,42 @@
                 };
                 reader.readAsDataURL(guideThumbnail.files[0]);
             } else {
+                // Keep existing thumbnail if editing and no new thumbnail selected
+                if (!isEditing || !thumbnailPreview.querySelector('img')) {
+                    studyGuide.thumbnail = null;
+                }
                 saveStudyGuideToStorage(studyGuide);
             }
         }
 
         // Save study guide to localStorage
         function saveStudyGuideToStorage(studyGuide) {
-            studyGuides.push(studyGuide);
             localStorage.setItem('supraStudierGuides', JSON.stringify(studyGuides));
             
-            showToast('Study guide saved successfully!', 'success');
+            if (isEditing) {
+                showToast('Study guide updated successfully!', 'success');
+                isEditing = false;
+                editingGuideId = null;
+            } else {
+                showToast('Study guide saved successfully!', 'success');
+            }
             
-            // Reset form
+            // Reset form and switch to guides tab
+            resetCreateForm();
+            document.querySelector('.tab[data-tab="guides"]').click();
+        }
+
+        // Reset the create form
+        function resetCreateForm() {
             document.getElementById('guideTitle').value = '';
             document.getElementById('guideDescription').value = '';
             thumbnailPreview.innerHTML = '';
             questionsContainer.innerHTML = '';
             currentQuestionId = 0;
-            
-            // Switch to guides tab
-            document.querySelector('.tab[data-tab="guides"]').click();
+            isEditing = false;
+            editingGuideId = null;
+            saveGuideBtn.textContent = 'Save Study Guide';
+            document.querySelector('#create h2').textContent = 'Create a New Study Guide';
         }
 
         // Load saved study guides
@@ -1365,7 +1735,7 @@
             document.querySelectorAll('.edit-guide').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const guideId = this.getAttribute('data-id');
-                    showToast('Edit functionality would open here in a full implementation', 'info');
+                    editStudyGuide(guideId);
                 });
             });
             
@@ -1382,9 +1752,53 @@
             });
         }
 
+        // Edit a study guide
+        function editStudyGuide(guideId) {
+            const guide = studyGuides.find(g => g.id === guideId);
+            if (!guide) return;
+            
+            // Set editing state
+            isEditing = true;
+            editingGuideId = guideId;
+            
+            // Switch to create tab and update UI
+            document.querySelector('.tab[data-tab="create"]').click();
+            document.querySelector('#create h2').textContent = 'Edit Study Guide';
+            saveGuideBtn.textContent = 'Update Study Guide';
+            
+            // Populate form with guide data
+            document.getElementById('guideTitle').value = guide.title;
+            document.getElementById('guideDescription').value = guide.description || '';
+            
+            // Set thumbnail if exists
+            if (guide.thumbnail) {
+                thumbnailPreview.innerHTML = `<img src="${guide.thumbnail}" class="image-preview" alt="Thumbnail preview">`;
+            }
+            
+            // Clear existing questions and add guide questions
+            questionsContainer.innerHTML = '';
+            currentQuestionId = 0;
+            
+            guide.questions.forEach(question => {
+                let type = '';
+                if (question.type.includes('Multiple Choice')) {
+                    type = 'multiple';
+                } else if (question.type.includes('True/False')) {
+                    type = 'truefalse';
+                } else if (question.type.includes('Short Answer')) {
+                    type = 'short';
+                }
+                
+                if (type) {
+                    addQuestion(type, question);
+                }
+            });
+        }
+
         // Show guide selection for study mode
         function showGuideSelection(mode) {
             currentStudyMode = mode;
+            isEndlessMode = (mode === 'endless');
             
             // Hide study modes, show guide selection
             document.querySelector('.study-modes').style.display = 'none';
@@ -1442,6 +1856,7 @@
             currentQuestionIndex = 0;
             score = { correct: 0, total: 0 };
             selectedOptions = [];
+            usedQuestions.clear();
             
             // Set up mode-specific features
             if (currentStudyMode === 'quiz') {
@@ -1451,6 +1866,11 @@
                 studyTimer = setInterval(updateTimer, 1000);
             } else {
                 timerDisplay.style.display = 'none';
+            }
+            
+            // Show fullscreen button for all modes except quiz
+            if (currentStudyMode !== 'quiz') {
+                toggleFullscreenBtn.style.display = 'inline-block';
             }
             
             // Load the first question
@@ -1475,9 +1895,32 @@
 
         // Load a question for study
         function loadQuestion() {
-            if (currentQuestionIndex >= currentStudyGuide.questions.length) {
-                endStudySession();
-                return;
+            // For endless mode, get a random question that hasn't been used recently
+            if (isEndlessMode) {
+                // If we've used all questions, reset the used set
+                if (usedQuestions.size >= currentStudyGuide.questions.length) {
+                    usedQuestions.clear();
+                }
+                
+                // Get a random question that hasn't been used
+                let availableQuestions = currentStudyGuide.questions.filter((_, index) => !usedQuestions.has(index));
+                if (availableQuestions.length === 0) {
+                    availableQuestions = currentStudyGuide.questions;
+                    usedQuestions.clear();
+                }
+                
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                currentQuestionIndex = currentStudyGuide.questions.indexOf(availableQuestions[randomIndex]);
+                usedQuestions.add(currentQuestionIndex);
+                
+                // Update question counter for endless mode
+                questionCounter.textContent = `Question ${score.total + 1} (Endless)`;
+            } else {
+                if (currentQuestionIndex >= currentStudyGuide.questions.length) {
+                    endStudySession();
+                    return;
+                }
+                questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentStudyGuide.questions.length}`;
             }
             
             const question = currentStudyGuide.questions[currentQuestionIndex];
@@ -1491,9 +1934,13 @@
                 studyQuestionImage.style.display = 'none';
             }
             
-            // Update progress
-            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentStudyGuide.questions.length}`;
-            progressBar.style.width = `${(currentQuestionIndex / currentStudyGuide.questions.length) * 100}%`;
+            // Update progress (for non-endless modes)
+            if (!isEndlessMode) {
+                progressBar.style.width = `${(currentQuestionIndex / currentStudyGuide.questions.length) * 100}%`;
+            } else {
+                progressBar.style.width = '0%';
+            }
+            
             scoreDisplay.textContent = `Score: ${score.correct}/${score.total}`;
             
             // Clear previous options
@@ -1647,7 +2094,9 @@
             if (currentStudyMode === 'quiz') {
                 // In quiz mode, automatically move to next question after a delay
                 setTimeout(() => {
-                    currentQuestionIndex++;
+                    if (!isEndlessMode) {
+                        currentQuestionIndex++;
+                    }
                     loadQuestion();
                 }, 2000);
             } else {
@@ -1658,7 +2107,9 @@
 
         // Move to the next question
         function nextQuestion() {
-            currentQuestionIndex++;
+            if (!isEndlessMode) {
+                currentQuestionIndex++;
+            }
             loadQuestion();
         }
 
@@ -1669,8 +2120,20 @@
                 clearInterval(studyTimer);
             }
             
-            // Show results screen
-            showResults();
+            // Exit fullscreen if active
+            if (document.fullscreenElement) {
+                exitFullscreen();
+            }
+            
+            // Show results screen (except for endless mode)
+            if (!isEndlessMode) {
+                showResults();
+            } else {
+                // For endless mode, just go back to study modes
+                studySession.style.display = 'none';
+                document.querySelector('.study-modes').style.display = 'grid';
+                guideSelection.style.display = 'none';
+            }
         }
 
         // Show results screen
@@ -1722,6 +2185,53 @@
                 document.querySelector('.study-modes').style.display = 'grid';
                 guideSelection.style.display = 'none';
             });
+        }
+
+        // Toggle fullscreen mode
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+
+        // Enter fullscreen mode
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Exit fullscreen mode
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+
+        // Handle fullscreen change
+        function handleFullscreenChange() {
+            if (document.fullscreenElement) {
+                document.body.classList.add('fullscreen');
+                fullscreenControls.style.display = 'flex';
+                if (isEndlessMode) {
+                    endlessIndicator.style.display = 'block';
+                }
+            } else {
+                document.body.classList.remove('fullscreen');
+                fullscreenControls.style.display = 'none';
+                endlessIndicator.style.display = 'none';
+            }
         }
 
         // Show toast notification
